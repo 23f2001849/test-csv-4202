@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Total Price Calculator</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Load Bootstrap 5 -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        .total-price {
+            font-size: 2em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Product Total Price</h1>
+
+        <div id="total-price" class="total-price"></div>
+
+        <!-- JavaScript for calculating and displaying total price -->
+        <script>
+            fetch('products.csv')
+                .then(response => response.text())
+                .then(data => {
+                    // Parse CSV data
+                    let rows = data.split('\n');
+                    let total = 0;
+
+                    // Calculate total price
+                    rows.forEach(row => {
+                        let cols = row.split(',');
+                        let price = parseFloat(cols[2]); // Assuming price is in third column
+                        if (!isNaN(price)) {
+                            total += price;
+                        }
+                    });
+
+                    // Display total price
+                    document.getElementById('total-price').textContent = 'Total Price: $' + total.toFixed(2);
+                })
+                .catch(error => {
+                    // Display error message
+                    document.getElementById('total-price').textContent = 'Error: ' + error.message;
+                });
+        </script>
+    </div>
+</body>
+</html>
